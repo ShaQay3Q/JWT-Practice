@@ -34,8 +34,12 @@ const posts = [
 ];
 
 app.get("/posts", authenticateTocken, (req, res) => {
-	res.json(posts.filter((post) => (post.username = req.user)));
+	res.json(posts.filter((post) => (post.username = req.user))); // re.user => sends iat * exp as well. but not req.user.name
 });
+
+// app.get("/posts", authenticateTocken, (req, res) => {
+// 	res.json(posts.filter((post) => post.username === req.user.name)); // Fix username comparison
+// });
 
 function authenticateTocken(req, res, next) {
 	// Tocken comse from the header, here Bearer
@@ -43,11 +47,15 @@ function authenticateTocken(req, res, next) {
 
 	// gets the TOKEN after the Bearer: Bearer TOCKEN
 	const token = authHeader && authHeader.split(" ")[1]; // undefined or TOKEN
-	if (token === null) return res.sendStatuts(401); // token not found
+	if (token === null) {
+		return res.sendStatus(401); // token not found
+	}
 
 	// Verify the token => pass the token and the secret
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-		if (err) res.sendStatuts(403); // no valid token
+		if (err) {
+			return res.sendStatus(403); // no valid token
+		}
 		req.user = user;
 		next();
 	});
