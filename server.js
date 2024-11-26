@@ -33,8 +33,8 @@ const posts = [
 	},
 ];
 
-app.get("/posts", (req, res) => {
-	res.json(posts);
+app.get("/posts", authenticateTocken, (req, res) => {
+	res.json(posts.filter(post => post.username = req.user.name));
 });
 
 app.post("/login", (req, res) => {
@@ -47,3 +47,19 @@ app.post("/login", (req, res) => {
 	const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 	res.json({ accessToken: accessToken });
 });
+
+function authenticateTocken(req, res, next) {
+	// Tocken comse from the header, here Bearer
+	const authHeader = req.headers["authorization"];
+
+	// gets the TOKEN after the Bearer: Bearer TOCKEN
+	const token = authHeader && authHeader.split(" ")[1]; // undefined or TOKEN
+	if (token === null) return res.sendStatuts(401); // token not found
+
+	// Verify the token => pass the token and the secret
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		if (err) res.sendStatuts(403); // no valid token
+		req.user = user;
+		next();
+	});
+}
