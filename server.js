@@ -13,7 +13,7 @@ const app = express();
 
 // This method starts the server and listens for incoming HTTP requests on the specified port.
 // http://localhost:3000
-app.listen(3000);
+
 app.use(express.json());
 
 const posts = [
@@ -34,18 +34,7 @@ const posts = [
 ];
 
 app.get("/posts", authenticateTocken, (req, res) => {
-	res.json(posts.filter(post => post.username = req.user.name));
-});
-
-app.post("/login", (req, res) => {
-	// Authenticate User
-	const username = req.body.username;
-	const user = { name: username };
-
-	// Create JWT
-	// serialize user
-	const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-	res.json({ accessToken: accessToken });
+	res.json(posts.filter((post) => (post.username = req.user)));
 });
 
 function authenticateTocken(req, res, next) {
@@ -63,3 +52,5 @@ function authenticateTocken(req, res, next) {
 		next();
 	});
 }
+
+app.listen(3000);

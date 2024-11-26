@@ -1,9 +1,9 @@
 GET http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjUyNzQwfQ.vAP1PzzbbfgPPl5YTmrfOV_RVo1qVnxMACPDbBMNgzA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjU2MDQ1LCJleHAiOjE3MzI2NTYwNjV9.0X1Hh__dfM4DBZHwzFo_2r6lwXZiRNGKqsxOvrZAOgo
 
 ###
 
-POST http://localhost:3000/login
+POST http://localhost:4000/login
 Content-Type: application/json
 
 {
