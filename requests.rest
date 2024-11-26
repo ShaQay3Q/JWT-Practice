@@ -1,13 +1,13 @@
 ### Get Posts
 GET http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY0MDI5LCJleHAiOjE3MzI2NjQwNzl9.TxA4n48jt3Gdp5iJe7EUB9uZvL2coiBeAP7jvzAIwpQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY0Nzk2LCJleHAiOjE3MzI2NjQ4NDZ9.VLdMkb7MAj4S_6nlI7Hrn-fmSDQW-v67ZMCFWRpCReo
 
 ### Get New Access Token Using Refresh Token
 POST http://localhost:4000/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY0MDI5fQ.PKKI9dwnstL--SKy5VDDCigcW4dkHrZsaPvgvneU6r0"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY0Nzk2fQ.IMyU0SKOMOUt3f_9HnuQmM-OePRH-tDd21RnIf0deGo"
 }
 
 ### Login

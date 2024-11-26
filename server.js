@@ -34,12 +34,8 @@ const posts = [
 ];
 
 app.get("/posts", authenticateTocken, (req, res) => {
-	res.json(posts.filter((post) => (post.username = req.user))); // re.user => sends iat * exp as well. but not req.user.name
+	res.json(posts.filter((post) => post.username === req.user.name));
 });
-
-// app.get("/posts", authenticateTocken, (req, res) => {
-// 	res.json(posts.filter((post) => post.username === req.user.name)); // Fix username comparison
-// });
 
 function authenticateTocken(req, res, next) {
 	// Tocken comse from the header, here Bearer
