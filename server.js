@@ -1,13 +1,20 @@
 // server.js: main server file
+require("dotenv").config();
 
 // This imports the Express library, which is a popular web application framework for Node.js.
 // Express simplifies building web servers and APIs by providing utilities and middleware for
 // handling routes, requests, and responses.
 const express = require("express");
+const jwt = require("jsonwebtoken");
 
 // This function initializes a new Express application instance.
 // The app object is used to configure the server, define routes, and attach middleware.
 const app = express();
+
+// This method starts the server and listens for incoming HTTP requests on the specified port.
+// http://localhost:3000
+app.listen(3000);
+app.use(express.json());
 
 const posts = [
 	{
@@ -30,6 +37,13 @@ app.get("/posts", (req, res) => {
 	res.json(posts);
 });
 
-// This method starts the server and listens for incoming HTTP requests on the specified port.
-// http://localhost:3000
-app.listen(3000);
+app.post("/login", (req, res) => {
+	// Authenticate User
+	const username = req.body.username;
+	const user = { name: username };
+
+	// Create JWT
+	// serialize user
+	const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+	res.json({ accessToken: accessToken });
+});
