@@ -33,6 +33,7 @@ const posts = [
 	},
 ];
 
+// Creatie route
 app.get("/posts", authenticateTocken, (req, res) => {
 	res.json(posts.filter((post) => post.username === req.user.name));
 });

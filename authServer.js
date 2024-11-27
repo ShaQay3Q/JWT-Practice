@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 // The app object is used to configure the server, define routes, and attach middleware.
 const app = express();
 
+// allow app to accept json
 app.use(express.json());
 
 // It should be stored in DB ir basically someplace else than here!
@@ -59,5 +60,19 @@ app.post("/login", (req, res) => {
 function generteAccessToken(user) {
 	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "50s" });
 }
+
+// // in real app this will be stored in db
+// const users = [];
+
+// // exposes user's password and info - in real app this route won't be accessable
+// app.get("/users", (req, res) => {
+// 	res.json(users);
+// });
+
+// app.post("/users", (req, res) => {
+// 	const user = { name: req.body.name, password: req.body.password };
+// 	users.push(user);
+// 	res.status(201).send("Successful");
+// });
 
 app.listen(4000);

@@ -26,5 +26,15 @@ Content-Type: application/json
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY2MTU0fQ.HIAwBfIUg3fsle-bWbKA4sHE92yRAfd5oW88N1tujNk"
 }
 
+### GET user info
+GET http://localhost:5000/users
+# Content-Type: application/json
 
+### POSt user
+POST http://localhost:5000/users
+Content-Type: application/json
 
+{
+    "name": "Sha",
+    "password": "randomPassword"
+}
