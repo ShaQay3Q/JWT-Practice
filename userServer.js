@@ -25,6 +25,9 @@ app.post("/users", async (req, res) => {
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+		// or omit the salt and pass it other way //! error: salt is not defined!
+		// const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
 		console.log(salt);
 		console.log(hashedPassword);
 
@@ -35,6 +38,23 @@ app.post("/users", async (req, res) => {
 	} catch (error) {
 		console.log(error);
 
+		res.status(500).send("Internal Server Error");
+	}
+});
+
+app.post("/users/login", async (req, res) => {
+	const user = users.find((user) => user.name === req.body.name);
+	if (user == null) {
+		return res.status(400).send("user not found");
+	}
+	try {
+		// better to use this method, else won't be protected agianst timin attacks
+		if (await bcrypt.compare(req.body.password, user.password)) {
+			res.send("Success");
+		} else {
+			res.send("not allowed");
+		}
+	} catch {
 		res.status(500).send("Internal Server Error");
 	}
 });
