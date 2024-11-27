@@ -1,13 +1,13 @@
 ### Get Posts
 GET http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY0Nzk2LCJleHAiOjE3MzI2NjQ4NDZ9.VLdMkb7MAj4S_6nlI7Hrn-fmSDQW-v67ZMCFWRpCReo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY2MTU0LCJleHAiOjE3MzI2NjYyMDR9.H_6COVaB2KFwSO0MVEns_pZZ0A5kSD7022bYI9dT81I
 
 ### Get New Access Token Using Refresh Token
 POST http://localhost:4000/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY0Nzk2fQ.IMyU0SKOMOUt3f_9HnuQmM-OePRH-tDd21RnIf0deGo"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY2MTU0fQ.HIAwBfIUg3fsle-bWbKA4sHE92yRAfd5oW88N1tujNk"
 }
 
 ### Login
@@ -17,3 +17,14 @@ Content-Type: application/json
 {
     "username": "Sha"
 }
+
+### Delete token - logout
+DELETE http://localhost:4000/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiU2hhIiwiaWF0IjoxNzMyNjY2MTU0fQ.HIAwBfIUg3fsle-bWbKA4sHE92yRAfd5oW88N1tujNk"
+}
+
+
+
