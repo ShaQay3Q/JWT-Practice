@@ -14,8 +14,6 @@ app.get("/register", (req, res) => {
 	res.render("register.ejs");
 });
 
-app.post("/register", (req, res) => {
-    re
-})
+app.post("/register", (req, res) => {});
 
 app.listen(3001);

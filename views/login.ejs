@@ -9,19 +9,21 @@
 </head>
 
 <body>
-    <div class="insert">
-        <h1>Login</h1>
-        <div>
-            <label for="email">e-mail:</label>
-            <input type="email" id="email" name="email" required placeholder="you@email">
+    <form action="/login" method="POST">
+        <div class="insert">
+            <h1>Login</h1>
+            <div>
+                <label for="email">e-mail:</label>
+                <input type="email" id="email" name="email" required placeholder="you@email">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="password">
+            </div>
         </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required placeholder="password">
-        </div>
-    </div>
-    <button type="submit">Login</button>
-    <a href="http://127.0.0.1:5500/register.html">Register...</a>
+        <button type="submit">Login</button>
+    </form>
+    <a href="/register">Register...</a>
 </body>
 
 </html>
