@@ -5,7 +5,7 @@ app.use(express.static("public")); //better and newer way of applying css
 
 app.get("/", (req, res) => {
 	// send a certain page
-	res.render("index.ejs", { name: "Sha" });
+	res.render("index.ejs", { name: "Sha", test: "TEST" });
 });
 app.get("/login", (req, res) => {
 	res.render("login.ejs");
@@ -13,5 +13,9 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
 	res.render("register.ejs");
 });
+
+app.post("/register", (req, res) => {
+    re
+})
 
 app.listen(3001);
