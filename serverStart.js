@@ -1,10 +1,20 @@
 const express = require("express");
+// validationResault is a middleware
+// Middleware order: The validation middleware must be placed before the actual route logic.
+// means before app = express()
+const { body, validationResult } = require("express-validator"); // For input validation
+
 const app = express();
 const bcrypt = require("bcrypt");
+
+const passport = require("passport");
+// const initializePassport = require("initialize");
+const initializePassport = require("./passport-config");
+initializePassport("passport");
+
 app.set("view engine", "ejs");
 app.use(express.static("public")); //better and newer way of applying css
 app.use(express.urlencoded({ extended: false }));
-const { body, validationResult } = require("express-validator"); // For input validation
 
 const users = [];
 
@@ -59,7 +69,7 @@ app.post(
 			// res.status(201).send("Successful");
 			res.redirect("/login");
 		} catch {
-			console.error("Error registering user:", error); // Log errors properly
+			console.error("Error registering user:", errors); // Log errors properly
 			res.redirect("/register");
 		}
 		console.log(users);
