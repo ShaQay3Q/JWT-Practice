@@ -13,6 +13,7 @@ const { body, validationResult } = require("express-validator"); // For input va
 
 const app = express();
 const bcrypt = require("bcrypt");
+const methodOverride = require("method-override");
 const flash = require("express-flash");
 const session = require("express-session");
 const passport = require("passport");
@@ -39,6 +40,7 @@ initializePassport(
 app.set("view engine", "ejs");
 app.use(express.static("public")); //!better and newer way of applying css
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
 app.use(flash());
 app.use(
 	session({
@@ -57,6 +59,35 @@ app.get("/", checkAuthenticated, (req, res) => {
 	const userName = "";
 	// send a certain page
 	res.render("index.ejs", { name: (req.user && req.user.name) || userName });
+});
+
+// app.delete("/logout", (req, res) => {
+// 	// Passport sets it authomatically
+// 	// Clear session and log the user out
+// 	// we can do that thrug HTML, ,it is not supported => intall method-override (delete)
+// 	req.logOut();
+// 	res.redirect("/login");
+// });
+
+app.delete("/logout", (req, res, next) => {
+	// Explicitly ensure compatibility
+	if (typeof req.logout === "function") {
+		req.logout((err) => {
+			if (err) {
+				return next(err);
+			}
+			res.redirect("/login");
+		});
+	} else {
+		// If req.logout() is not a function, handle manually
+		req.session.destroy((err) => {
+			if (err) {
+				return next(err);
+			}
+			res.clearCookie("connect.sid"); // Clear session cookie
+			res.redirect("/login");
+		});
+	}
 });
 
 app.get("/login", checkNotAuthenticated, (req, res) => {

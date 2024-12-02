@@ -15,7 +15,11 @@
             style="color: red; font-weight: 500; font-size: small;">Embedded
             JavaScrip</span>
         file!</p>
-    <button type="submit">Log Out</button>
+
+    <!-- use _method to override POST method with DELETE-->
+    <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit">Log Out</button>
+    </form>
 
 
 </body>
