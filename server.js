@@ -42,7 +42,7 @@ app.get("/posts", authenticateTocken, (req, res) => {
 });
 
 function authenticateTocken(req, res, next) {
-	// Tocken comse from the header, here Bearer
+	// Tocken comes from the header, here Bearer
 	const authHeader = req.headers["authorization"];
 
 	// gets the TOKEN after the Bearer: Bearer TOCKEN

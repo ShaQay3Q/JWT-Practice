@@ -53,7 +53,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 const users = [];
 
-app.get("/", (req, res) => {
+app.get("/", checkAuthenticated, (req, res) => {
 	const userName = "";
 	// send a certain page
 	res.render("index.ejs", { name: (req.user && req.user.name) || userName });
@@ -136,5 +136,13 @@ app.post(
 		console.log(users);
 	}
 );
+
+// Middleware function
+function checkAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect("/login");
+}
 
 app.listen(3002);
