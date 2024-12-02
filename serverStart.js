@@ -54,9 +54,11 @@ app.use(passport.session());
 const users = [];
 
 app.get("/", (req, res) => {
+	const userName = "";
 	// send a certain page
-	res.render("index.ejs");
+	res.render("index.ejs", { name: (req.user && req.user.name) || userName });
 });
+
 app.get("/login", (req, res) => {
 	res.render("login.ejs");
 });
