@@ -1,5 +1,8 @@
 // server.js: main server file
-require("dotenv").config();
+// require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config;
+}
 
 // This imports the Express library, which is a popular web application framework for Node.js.
 // Express simplifies building web servers and APIs by providing utilities and middleware for

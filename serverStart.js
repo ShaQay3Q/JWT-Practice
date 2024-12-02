@@ -1,4 +1,11 @@
+// Load in all the environmental variables and set them inside process.env
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config();
+}
+// require("dotenv").config();
+
 const express = require("express");
+// const z = require("zod");
 // validationResault is a middleware
 // Middleware order: The validation middleware must be placed before the actual route logic.
 // means before app = express()
@@ -6,31 +13,82 @@ const { body, validationResult } = require("express-validator"); // For input va
 
 const app = express();
 const bcrypt = require("bcrypt");
-
+const flash = require("express-flash");
+const session = require("express-session");
 const passport = require("passport");
 // const initializePassport = require("initialize");
 const initializePassport = require("./passport-config");
-initializePassport("passport");
+
+initializePassport(
+	passport,
+	(email) => users.find((user) => user.email === email),
+	(id) => users.find((user) => user.id === id)
+);
+
+// ! OR
+
+// function getUserByEmail(email) {
+// 	return users.find((user) => user.email === email);
+// }
+
+// function getUserById(id) {
+// 	return users.find((user) => user.id === id);
+// }
+// initializePassport(passport, getUserByEmail, getUserById);
 
 app.set("view engine", "ejs");
-app.use(express.static("public")); //better and newer way of applying css
+app.use(express.static("public")); //!better and newer way of applying css
 app.use(express.urlencoded({ extended: false }));
-
+app.use(flash());
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		// resaves session varibales if nothing has changed
+		resave: false,
+		// saves an empty value in the session if there is no value
+		saveUninitialized: false,
+	})
+);
+app.use(passport.initialize());
+app.use(passport.session());
 const users = [];
 
 app.get("/", (req, res) => {
 	// send a certain page
-	res.render("index.ejs", { name: "Sha", test: "TEST" });
+	res.render("index.ejs");
 });
 app.get("/login", (req, res) => {
 	res.render("login.ejs");
 });
 
-app.post("/login", (req, res) => {});
+app.post(
+	"/login",
+	passport.authenticate("local", {
+		successRedirect: "/",
+		failureRedirect: "/login",
+		// show message to user (pre set messages)
+		failureFlash: true,
+	})
+);
 
 app.get("/register", (req, res) => {
 	res.render("register.ejs");
 });
+
+// const createValidator = [
+// 	body("name").notEmpty().withMessage("Name is require"),
+// 	body("email").isEmail().withMessage("Valid email is require"),
+// 	body("password", "The minimum password length is 6 characters").isLength({
+// 		min: 6,
+// 	}),
+// 	// .withMessage("Password must be at least 8 charachters"),
+// ];
+
+// const RegisterSchema = z.object({
+// 	name: z.string().notEmpty(),
+// 	email: z.string().email(),
+// 	password: z.string().min(6, "Password needs to be at least 6 characters"),
+// });
 
 app.post(
 	"/register",
@@ -38,9 +96,10 @@ app.post(
 	[
 		body("name").notEmpty().withMessage("Name is require"),
 		body("email").isEmail().withMessage("Valid email is require"),
-		body("password")
-			.isLength({ min: 8 })
-			.withMessage("Password must be at least 8 charachters"),
+		body("password", "The minimum password length is 6 characters").isLength({
+			min: 6,
+		}),
+		// .withMessage("Password must be at least 8 charachters"),
 	],
 	async (req, res) => {
 		// check for validity of the request
