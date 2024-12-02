@@ -71,23 +71,23 @@ app.get("/", checkAuthenticated, (req, res) => {
 
 app.delete("/logout", (req, res, next) => {
 	// Explicitly ensure compatibility
-	if (typeof req.logout === "function") {
-		req.logout((err) => {
-			if (err) {
-				return next(err);
-			}
-			res.redirect("/login");
-		});
-	} else {
-		// If req.logout() is not a function, handle manually
-		req.session.destroy((err) => {
-			if (err) {
-				return next(err);
-			}
-			res.clearCookie("connect.sid"); // Clear session cookie
-			res.redirect("/login");
-		});
-	}
+	// if (typeof req.logout === "function") {
+	req.logout((err) => {
+		if (err) {
+			return next(err);
+		}
+		res.redirect("/login");
+	});
+	// } else {
+	// 	// If req.logout() is not a function, handle manually
+	// 	req.session.destroy((err) => {
+	// 		if (err) {
+	// 			return next(err);
+	// 		}
+	// 		res.clearCookie("connect.sid"); // Clear session cookie
+	// 		res.redirect("/login");
+	// 	});
+	// }
 });
 
 app.get("/login", checkNotAuthenticated, (req, res) => {
