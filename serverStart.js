@@ -59,12 +59,13 @@ app.get("/", checkAuthenticated, (req, res) => {
 	res.render("index.ejs", { name: (req.user && req.user.name) || userName });
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", checkNotAuthenticated, (req, res) => {
 	res.render("login.ejs");
 });
 
 app.post(
 	"/login",
+	checkNotAuthenticated,
 	passport.authenticate("local", {
 		successRedirect: "/",
 		failureRedirect: "/login",
@@ -73,7 +74,7 @@ app.post(
 	})
 );
 
-app.get("/register", (req, res) => {
+app.get("/register", checkNotAuthenticated, (req, res) => {
 	res.render("register.ejs");
 });
 
@@ -94,20 +95,21 @@ app.get("/register", (req, res) => {
 
 app.post(
 	"/register",
+	checkNotAuthenticated,
 	// input validation - make sure only valid data be fetched
-	[
-		body("name").notEmpty().withMessage("Name is require"),
-		body("email").isEmail().withMessage("Valid email is require"),
-		body("password", "The minimum password length is 6 characters").isLength({
-			min: 6,
-		}),
-		// .withMessage("Password must be at least 8 charachters"),
-	],
+	// [
+	// 	body("name").notEmpty().withMessage("Name is require"),
+	// 	body("email").isEmail().withMessage("Valid email is require"),
+	// 	body("password", "The minimum password length is 6 characters").isLength({
+	// 		min: 6,
+	// 	}),
+	// 	// .withMessage("Password must be at least 8 charachters"),
+	// ],
 	async (req, res) => {
 		// check for validity of the request
 		const errors = validationResult(req);
 		// if there are errors:
-		if (!errors.isEmpty) {
+		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}
 		try {
@@ -133,7 +135,6 @@ app.post(
 			console.error("Error registering user:", errors); // Log errors properly
 			res.redirect("/register");
 		}
-		console.log(users);
 	}
 );
 
@@ -142,7 +143,15 @@ function checkAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	res.redirect("/login");
+	return res.redirect("/login");
+}
+
+function checkNotAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return res.redirect("/");
+	}
+	// continue with the call
+	return next();
 }
 
 app.listen(3002);
